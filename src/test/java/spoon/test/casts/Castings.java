@@ -10,7 +10,7 @@ public class Castings {
 	public void foo() {
 		List<Integer> list = new ArrayList<Integer>(1);
 		list.add(1);
-		test(getValue(list));
+		test(this.<Integer>getValue(list));
 	}
 
 	public final <T> T getValue(List<T> list) {

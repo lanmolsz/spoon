@@ -1,8 +1,20 @@
 package spoon.test.api;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
 import spoon.Launcher;
 import spoon.SpoonAPI;
 import spoon.compiler.Environment;
@@ -14,17 +26,23 @@ import spoon.reflect.visitor.filter.AbstractFilter;
 import spoon.support.JavaOutputProcessor;
 import spoon.test.api.testclasses.Bar;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 public class APITest {
+
+	@Test
+	public void testGetAllRoots(){
+		Launcher launcher = new Launcher();
+		launcher.setArgs(new String[]{
+				"--input","E:\\code\\raml-for-jax-rs\\jaxrs-to-raml\\examples\\simple_rest\\src\\main\\java",
+				"--source-classpath",
+		});
+		launcher.run();
+		launcher.getEnvironment().setLevel("DEBUG");
+		Collection<CtPackage> packages = launcher.getFactory().Package().getAll();
+		launcher.getEnvironment().debugMessage("packages size:" + packages.size());
+		for (CtPackage p : packages){
+			launcher.getEnvironment().debugMessage("getAll-package:"+p.getQualifiedName());
+		}
+	}
 
 	@Test
 	public void testBasicAPIUsage() throws Exception {
